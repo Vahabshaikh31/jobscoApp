@@ -4,7 +4,8 @@ import CandidateJobCard from "../candidate-job-card";
 import PostNewJob from "../post-new-job";
 import RecruiterJobCard from "../recruiter-job-card";
 
-export function JobListing({ user, profileInfo, jobList }) {
+export function JobListing({ user, profileInfo, jobList, jobApplications }) {
+
   return (
     <div className="mx-auto max-w-7xl p-4">
       <div className="flex items-baseline justify-between border-b border-gray-200 py-6">
@@ -28,9 +29,19 @@ export function JobListing({ user, profileInfo, jobList }) {
         {jobList && jobList.length > 0 ? (
           jobList.map((jobItem, index) =>
             profileInfo?.role === "candidate" ? (
-              <CandidateJobCard key={index} jobItem={jobItem} />
+              <CandidateJobCard
+                key={index}
+                jobItem={jobItem}
+                profileInfo={profileInfo}
+                jobApplications={jobApplications}
+              />
             ) : (
-              <RecruiterJobCard key={index} jobItem={jobItem} />
+              <RecruiterJobCard
+                key={index}
+                profileInfo={profileInfo}
+                jobItem={jobItem}
+                jobApplications={jobApplications}
+              />
             )
           )
         ) : (

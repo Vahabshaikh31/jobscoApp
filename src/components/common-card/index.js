@@ -7,12 +7,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-export default function CommonCard({
+export default function 
+({
   description,
   title,
   icon,
   footerContent,
+  jobApplications,
 }) {
+  
   return (
     <Card className="bg-white shadow-lg rounded-lg overflow-hidden">
       <CardHeader className="p-4 border-b border-gray-200">

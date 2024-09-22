@@ -7,6 +7,7 @@ import {
   TabsTrigger,
   TabsContent,
 } from "../../components/ui/tabs";
+
 import CommonForm from "../common-form";
 import {
   candidateOnboardFromControls,
@@ -14,6 +15,7 @@ import {
   initialRecruiterFromData,
   recruiterOnboardFromControls,
 } from "@/utils";
+
 import { createProfile } from "@/actions";
 import { useUser } from "@clerk/nextjs";
 import { createClient } from "@supabase/supabase-js";
@@ -22,7 +24,6 @@ const supabaseClient = createClient(
   "https://hynxzzlhphnnhyqlhjfk.supabase.co/",
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh5bnh6emxocGhubmh5cWxoamZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjY0NzEyMDUsImV4cCI6MjA0MjA0NzIwNX0.Fpmy61-5_E1w6NFraPcruUeKLixDLMWfx-ahx9Hi1AM"
 );
-
 function OnBoard() {
   const [currentTab, setCurrentTab] = useState("candidate");
 
@@ -51,7 +52,7 @@ function OnBoard() {
     if (!file) return;
 
     const { data, error } = await supabaseClient.storage
-      .from("job-board")
+      .from("job-board-public")
       .upload(`public/${file.name}`, file, {
         cacheControl: "3600",
         upsert: false,
@@ -155,7 +156,7 @@ function OnBoard() {
             formData={candidateFormData}
             setFormData={setCandidateFormData}
             handleFileChange={handleFileChange}
-            isBtnDisabled={!handleCandidateFormValid()}
+            // isBtnDisabled={!handleCandidateFormValid()}
             action={createProfileAction}
           />
         </TabsContent>
@@ -165,7 +166,7 @@ function OnBoard() {
             buttonText="Onboard as recruiter"
             formData={recruiterFormData}
             setFormData={setRecruiterFormData}
-            isBtnDisabled={!handleRecruiterFormValid()}
+            // isBtnDisabled={!handleRecruiterFormValid()}
             action={createProfileAction}
           />
         </TabsContent>

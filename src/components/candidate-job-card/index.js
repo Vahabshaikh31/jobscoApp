@@ -12,11 +12,29 @@ import CommonCard from "../common-card";
 import JobIcon from "../job-icon";
 import { Button } from "../ui/button";
 import { useState, Fragment } from "react";
+import { createJobApplicationAction } from "@/actions";
 
-const CandidateJobCard = ({ jobItem }) => {
+const CandidateJobCard = ({ jobItem, profileInfo, jobApplications }) => {
   const [showJobDetailsDrawer, setShowJobDetailsDrawer] = useState(false);
 
-  const { description, title, location, type, experience, skills } = jobItem;
+  const { companyName, title, location, type, experience, skills } = jobItem;
+
+  const handleJobApply = async () => {
+    await createJobApplicationAction(
+      {
+        recruiterUserID: jobItem?.recruiterId,
+        name: profileInfo?.candidateInfo?.name,
+        email: profileInfo?.email,
+        candidateUserID: profileInfo?.userId,
+        status: ["Applied"],
+        jobID: jobItem._id,
+        jonApplicationDate: new Date().toLocaleDateString(),
+      },
+      "/jobs"
+    );
+
+    setShowJobDetailsDrawer(false);
+  };
 
   return (
     <Fragment>
@@ -24,7 +42,7 @@ const CandidateJobCard = ({ jobItem }) => {
       <CommonCard
         icon={<JobIcon />}
         title={title}
-        description={description}
+        description={companyName}
         footerContent={
           <Button
             onClick={() => setShowJobDetailsDrawer(true)}
@@ -36,7 +54,6 @@ const CandidateJobCard = ({ jobItem }) => {
         className="shadow-md hover:shadow-lg transition-shadow rounded-lg bg-white p-4"
       />
 
-      {/* Drawer for Job Details */}
       <Drawer
         open={showJobDetailsDrawer}
         onOpenChange={setShowJobDetailsDrawer}
@@ -91,13 +108,24 @@ const CandidateJobCard = ({ jobItem }) => {
           <div className="flex gap-4 justify-end">
             <Button
               className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition"
-              onClick={() => setShowJobDetailsDrawer(false)}
+              onClick={handleJobApply}
+              disabled={
+                jobApplications.findIndex(
+                  (items) => items.jobID === jobItem._id
+                ) > -1
+                  ? true
+                  : false
+              }
             >
-              Apply
+              {jobApplications.findIndex(
+                (items) => items.jobID === jobItem._id
+              ) > -1
+                ? "Applied"
+                : "Apply"}
             </Button>
             <Button
               className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition"
-              onClick={() => setShowJobDetailsDrawer(false)}
+              onClick={handleJobApply}
             >
               Cancel
             </Button>

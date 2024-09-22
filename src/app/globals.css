@@ -76,3 +76,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
