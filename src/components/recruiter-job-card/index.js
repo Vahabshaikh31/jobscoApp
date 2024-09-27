@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CommonCard from "../common-card";
 import JobApplications from "../job-applicant";
 import JobIcon from "../job-icon";
@@ -10,6 +10,7 @@ function RecruiterJobCard({ jobItem, jobApplications, profileInfo }) {
   const { companyName, title } = jobItem;
 
   const [showApplicantsDrawer, setShowApplicantsDrawer] = useState(false);
+
   const [currentCandidateDetails, setCurrentCandidateDetails] = useState(null);
   const [
     showCurrentCandidateDetailsModal,

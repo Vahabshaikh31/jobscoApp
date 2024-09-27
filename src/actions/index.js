@@ -23,6 +23,42 @@ export async function fetchProfileAction(id) {
   const result = await Profile.findOne({ userId: id });
   return JSON.parse(JSON.stringify(result));
 }
+// Update profile membership
+export async function fetchProfileAndUpdateMembership(data, pathToRevalidate) {
+  await connectToDB();
+
+  const {
+    role,
+    email,
+    memberShipType,
+    memberShipStartDate,
+    memberShipEndDate,
+    recruiterInfo,
+    candidateInfo,
+    userId,
+  } = data;
+
+  const result = await Profile.findOneAndUpdate(
+    { userId },
+    {
+      userId,
+      role,
+      email,
+      memberShipType,
+      memberShipStartDate,
+      memberShipEndDate,
+      recruiterInfo,
+      candidateInfo,
+    },
+    { new: true }
+  );
+
+  if (!result) {
+    console.error("No data found for user:", userId);
+  }
+
+  revalidatePath(pathToRevalidate);
+}
 
 //create Job Action
 
@@ -33,6 +69,7 @@ export async function postNewJobAction(fromData, path) {
 }
 
 //fetch Job Action
+
 //recruiter
 
 export async function fetchJobForRecruiterAction(id) {
@@ -42,9 +79,18 @@ export async function fetchJobForRecruiterAction(id) {
 }
 
 //candidate
-export async function fetchJobForCandidateAction() {
+
+export async function fetchJobForCandidateAction(filterParams = {}) {
   await connectToDB();
-  const result = await Job.find({});
+  let updatedParams = {};
+
+  Object.keys(filterParams).forEach((filterKey) => {
+    updatedParams[filterKey] = { $in: filterParams[filterKey].split(",") };
+  });
+
+  const result = await Job.find(
+    filterParams && Object.keys(filterParams).length > 0 ? updatedParams : {}
+  );
   return JSON.parse(JSON.stringify(result));
 }
 
@@ -124,4 +170,55 @@ export async function createFilterCategoryAction() {
   await connectToDB();
   const result = await Job.find({});
   return JSON.parse(JSON.stringify(result));
+}
+
+//update Profile Action
+export async function updateProfileAction(data, pathToRevalidate) {
+  try {
+    await connectToDB();
+
+    const {
+      userId,
+      role,
+      email,
+      memberShipType,
+      memberShipStartDate,
+      memberShipEndDate,
+      recruiterInfo,
+      candidateInfo,
+      _id,
+    } = data;
+    console.log(data, "data of Posts");
+
+    // Check if required data exists
+    if (!_id || !userId) {
+      throw new Error("Profile ID and User ID are required.");
+    }
+
+    // Update the profile in the database
+    const updatedProfile = await Profile.findOneAndUpdate(
+      { _id },
+      {
+        userId,
+        role,
+        email,
+        memberShipType,
+        memberShipStartDate,
+        memberShipEndDate,
+        recruiterInfo,
+        candidateInfo,
+      },
+      { new: true }
+    );
+
+    if (!updatedProfile) {
+      throw new Error("Profile update failed.");
+    }
+
+    // Revalidate the path
+    await revalidatePath(pathToRevalidate);
+  } catch (error) {
+    console.error("Failed to update profile:", error);
+    throw new Error(`Profile update failed: ${error.message}`);
+  }
 }

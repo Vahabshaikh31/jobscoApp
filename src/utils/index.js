@@ -1,3 +1,6 @@
+import { Query } from "mongoose";
+import qs from "query-string";
+
 export const recruiterOnboardFromControls = [
   {
     label: "Name",
@@ -19,7 +22,7 @@ export const recruiterOnboardFromControls = [
   },
 ];
 
-export const initialRecruiterFromData = {
+export const initialRecruiterFormData = {
   name: "",
   companyName: "",
   companyRole: "",
@@ -62,7 +65,7 @@ export const candidateOnboardFromControls = [
   },
   {
     label: "Skills",
-    name: "skills",
+    name: "skill",
     placeholder: "Enter your skills",
     componentType: "input",
   },
@@ -110,17 +113,34 @@ export const candidateOnboardFromControls = [
   },
 ];
 
-export const initialCandidateFromData = {
+export const initialCandidateFormData = {
   name: "",
   currentJobLocation: "",
   preferredJobLocation: "",
   currentSalary: "",
   noticePeriod: "",
   skills: "",
-  previousCompany: "", // Fixed typo from 'Compony'
+  previousCompany: "",
   totalExperience: "",
   college: "",
-  collegeLocation: "", // Fixed the space in the key 'college Location'
+  collegeLocation: "",
+  graduatedYear: "",
+  linkedinProfile: "",
+  githubProfile: "",
+  resume: "",
+};
+
+export const initialCandidateAccountForm = {
+  name: "",
+  currentJobLocation: "",
+  preferredJobLocation: "",
+  currentSalary: "",
+  noticePeriod: "",
+  skills: "",
+  previousCompany: "",
+  totalExperience: "",
+  college: "",
+  collegeLocation: "",
   graduatedYear: "",
   linkedinProfile: "",
   githubProfile: "",
@@ -181,3 +201,106 @@ export const initialPostNewJobFormControls = {
   description: "",
   skills: "",
 };
+
+export const filterMenuDataArray = [
+  {
+    id: "companyName",
+    label: "Company Name",
+  },
+  {
+    id: "title",
+    label: "Title",
+  },
+  {
+    id: "type",
+    label: "Type",
+  },
+  {
+    id: "location",
+    label: "Location",
+  },
+];
+
+export function fromUrlQuery({ params, dataToAdd }) {
+  let currentURL = qs.parse(params);
+
+  if (Object.keys(dataToAdd).length > 0) {
+    Object.keys(dataToAdd).forEach((key) => {
+      if (dataToAdd[key].length === 0) {
+        delete currentURL[key];
+      } else {
+        currentURL[key] = dataToAdd[key].join(",");
+      }
+    });
+
+    return qs.stringifyUrl(
+      {
+        url: window.location.pathname,
+        query: currentURL,
+      },
+      {
+        skipNull: true,
+      }
+    );
+  }
+}
+
+export const MemberShipCardsForRecruiter = [
+  {
+    img: "https://img.freepik.com/premium-vector/game-level-up-shield-badge-win-icon-bonus-award_8071-53691.jpg",
+    alt: "Basic Plan",
+    title: "Basic",
+
+    description:
+      "Basic membership offers limited access to our platform. you can post only 10 jobs ",
+    price: "10",
+    button: "Subscribe",
+  },
+  {
+    img: "https://img.freepik.com/premium-vector/game-level-badge-gui-interface-golden-banner-with-flags-vector-icon-2-level-up-badge-with-ribbon-golden-crest-video-game-arcade-level-achievement-gamer-popup-congrats_8071-58312.jpg",
+    title: "Standard",
+    description:
+      "Standard membership offers unlimited access to our platform. you can post 20 jobs ",
+    price: "50",
+    button: "Subscribe",
+  },
+  {
+    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWC_ePsWFETslNjKtXVysDTItR-uxpaaaP7w&s",
+    alt: "Premium Plan",
+    title: "Premium",
+    description:
+      "Premium membership offers unlimited access to our platform. you can post unlimited jobs ",
+    price: "100",
+    button: "Subscribe",
+  },
+];
+
+export const MemberShipCardsForCandidate = [
+  {
+    img: "https://img.freepik.com/premium-vector/game-level-up-shield-badge-win-icon-bonus-award_8071-53691.jpg",
+    alt: "Basic Plan",
+    title: "Basic",
+
+    description:
+      "Basic membership offers limited access to our platform. you can Apply only 5 jobs ",
+    price: "10",
+    button: "Subscribe",
+  },
+  {
+    img: "https://img.freepik.com/premium-vector/game-level-badge-gui-interface-golden-banner-with-flags-vector-icon-2-level-up-badge-with-ribbon-golden-crest-video-game-arcade-level-achievement-gamer-popup-congrats_8071-58312.jpg",
+    title: "Standard",
+    description:
+      "Standard membership offers unlimited access to our platform. you can Apply only 10 jobs ",
+    price: "50",
+    button: "Subscribe",
+  },
+  {
+    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWC_ePsWFETslNjKtXVysDTItR-uxpaaaP7w&s",
+    alt: "Premium Plan",
+    title: "Premium",
+    description:
+      "Premium membership offers unlimited access to our platform. you can Apply unlimited jobs ",
+    price: "100",
+    button: "Subscribe",
+  },
+];

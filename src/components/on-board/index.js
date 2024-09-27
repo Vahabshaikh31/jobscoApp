@@ -115,6 +115,9 @@ function OnBoard() {
               isPremiumUser: false,
               userId: user?.id,
               email: user?.primaryEmailAddress?.emailAddress,
+              memberShipType: "",
+              memberShipStartDate: "",
+              memberShipEndDate: "",
             }
           : {
               recruiterInfo: {
@@ -126,6 +129,9 @@ function OnBoard() {
               isPremiumUser: false,
               userId: user?.id,
               email: user?.primaryEmailAddress?.emailAddress,
+              memberShipType: "",
+              memberShipStartDate: "",
+              memberShipEndDate: "",
             };
       console.log("All ADat  :", data);
 

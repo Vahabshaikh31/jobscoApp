@@ -9,6 +9,8 @@ import {
 } from "@/actions";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { createClient } from "@supabase/supabase-js";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 const supabaseClient = createClient(
   "https://hynxzzlhphnnhyqlhjfk.supabase.co/",
@@ -32,6 +34,7 @@ function CandidateList({
       setShowCurrentCandidateDetailsModal(true);
     }
   };
+
   const handlePreviewResume = async () => {
     const { data } = supabaseClient.storage
       .from("job-board-public")
@@ -64,7 +67,27 @@ function CandidateList({
     };
     await updateJobApplicationData(jobApplicationsToUpdate, "/jobs");
   };
-  console.log(jobApplications);
+  const { toast } = useToast();
+  const router = useRouter();
+
+  const handleSelect = async () => {
+    toast({
+      title: `Candidate selected`,
+      description: `Ohuu! Candidate is Selected 🥳`,
+    });
+    handleUpdateJobStatus("selected");
+  };
+  router.push("/jobs");
+  const handleReject = async () => {
+    toast({
+      variant: "destructive",
+      title: `Candidate rejected`,
+      description: `Upps! Candidate is rejected 😔`,
+    });
+    router.push("/jobs");
+
+    handleUpdateJobStatus("rejected");
+  };
 
   return (
     <Fragment>
@@ -227,7 +250,7 @@ function CandidateList({
             <div className="flex gap-3">
               <Button onClick={handlePreviewResume}>Resume</Button>
               <Button
-                onClick={() => handleUpdateJobStatus("selected")}
+                onClick={handleSelect}
                 className="disabled:opacity-70"
                 disabled={
                   jobApplications
@@ -259,7 +282,7 @@ function CandidateList({
               </Button>
               <Button
                 className="disabled:opacity-75"
-                onClick={() => handleUpdateJobStatus("rejected")}
+                onClick={handleReject}
                 disabled={
                   jobApplications
                     .find(

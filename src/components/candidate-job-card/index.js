@@ -1,25 +1,68 @@
 "use client";
+
+import { useState, Fragment } from "react";
+import { useRouter } from "next/navigation";
+import { createJobApplicationAction } from "@/actions";
+import { useToast } from "@/hooks/use-toast";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
-  DrawerDescription,
   DrawerHeader,
   DrawerTitle,
+  DrawerDescription,
+  DrawerClose,
 } from "@/components/ui/drawer";
-
 import CommonCard from "../common-card";
 import JobIcon from "../job-icon";
 import { Button } from "../ui/button";
-import { useState, Fragment } from "react";
-import { createJobApplicationAction } from "@/actions";
+import { ToastAction } from "../ui/toast";
 
-const CandidateJobCard = ({ jobItem, profileInfo, jobApplications }) => {
+const CandidateJobCard = ({
+  jobItem,
+  profileInfo,
+  jobApplications,
+  JobCount,
+}) => {
   const [showJobDetailsDrawer, setShowJobDetailsDrawer] = useState(false);
+  const { toast } = useToast();
 
   const { companyName, title, location, type, experience, skills } = jobItem;
+  const router = useRouter();
 
+  // Check if the candidate has already applied for this job
+  const isAlreadyApplied = jobApplications.some(
+    (application) => application.jobID === jobItem._id
+  );
+
+  // Common toast handler for upgrade notifications
+  const handleUpgradeToast = (planType) => {
+    return toast({
+      variant: "destructive",
+      title: `Upgrade Required`,
+      description: `You have reached the limit for the ${planType} plan.`,
+      action: (
+        <ToastAction
+          altText="Upgrade"
+          onClick={() => router.push("/membership")}
+        >
+          Upgrade
+        </ToastAction>
+      ),
+    });
+  };
+
+  // Handles job application submission with membership validation
   const handleJobApply = async () => {
+    const { memberShipType } = profileInfo;
+
+    if (
+      (memberShipType === "" && JobCount >= 3) ||
+      (memberShipType === "Basic" && JobCount >= 10) ||
+      (memberShipType === "Standard" && JobCount >= 20)
+    ) {
+      return handleUpgradeToast(memberShipType || "free");
+    }
+
     await createJobApplicationAction(
       {
         recruiterUserID: jobItem?.recruiterId,
@@ -28,7 +71,7 @@ const CandidateJobCard = ({ jobItem, profileInfo, jobApplications }) => {
         candidateUserID: profileInfo?.userId,
         status: ["Applied"],
         jobID: jobItem._id,
-        jonApplicationDate: new Date().toLocaleDateString(),
+        jobApplicationDate: new Date().toLocaleDateString(),
       },
       "/jobs"
     );
@@ -54,6 +97,7 @@ const CandidateJobCard = ({ jobItem, profileInfo, jobApplications }) => {
         className="shadow-md hover:shadow-lg transition-shadow rounded-lg bg-white p-4"
       />
 
+      {/* Job Details Drawer */}
       <Drawer
         open={showJobDetailsDrawer}
         onOpenChange={setShowJobDetailsDrawer}
@@ -63,7 +107,7 @@ const CandidateJobCard = ({ jobItem, profileInfo, jobApplications }) => {
           <DrawerHeader className="flex justify-between items-center border-b pb-4">
             <DrawerTitle className="text-3xl font-bold text-gray-900">
               {title}
-            </DrawerTitle>{" "}
+            </DrawerTitle>
             <DrawerClose
               onClick={() => setShowJobDetailsDrawer(false)}
               className="text-gray-500 hover:text-gray-700"
@@ -107,25 +151,19 @@ const CandidateJobCard = ({ jobItem, profileInfo, jobApplications }) => {
           {/* Action Buttons */}
           <div className="flex gap-4 justify-end">
             <Button
-              className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition"
+              className={`${
+                isAlreadyApplied
+                  ? "bg-gray-500 cursor-not-allowed"
+                  : "bg-green-500 hover:bg-green-600"
+              } text-white px-4 py-2 rounded-md transition`}
               onClick={handleJobApply}
-              disabled={
-                jobApplications.findIndex(
-                  (items) => items.jobID === jobItem._id
-                ) > -1
-                  ? true
-                  : false
-              }
+              disabled={isAlreadyApplied}
             >
-              {jobApplications.findIndex(
-                (items) => items.jobID === jobItem._id
-              ) > -1
-                ? "Applied"
-                : "Apply"}
+              {isAlreadyApplied ? "Applied" : "Apply"}
             </Button>
             <Button
               className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition"
-              onClick={handleJobApply}
+              onClick={() => setShowJobDetailsDrawer(false)}
             >
               Cancel
             </Button>
