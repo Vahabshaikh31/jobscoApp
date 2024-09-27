@@ -1,4 +1,5 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import {
   MemberShipCardsForCandidate,
@@ -33,7 +34,7 @@ const MembershipCard = (profileInfo) => {
       </h1>
 
       {/* Current Plan */}
-      <h2 className="text-center text-lg text-4xl text-gray-600 mb-8">
+      <h2 className="text-center text-4xl text-gray-600 mb-8">
         Current Plan:{" "}
         <span className="font-semibold text-4xl text-blue-600">
           {ProfileInfo.memberShipType === ""
