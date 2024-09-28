@@ -54,7 +54,7 @@ function Header({ user, profileInfo }) {
         </Sheet>
 
         {/* Logo for Both Mobile and Desktop */}
-        <Link className="hidden lg:flex mr-6" href="/">
+        <Link href="/" className="hidden lg:flex mr-6" href="/">
           JOBSCO
         </Link>
 
