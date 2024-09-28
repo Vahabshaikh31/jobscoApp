@@ -21,9 +21,10 @@ import { useUser } from "@clerk/nextjs";
 import { createClient } from "@supabase/supabase-js";
 
 const supabaseClient = createClient(
-  "https://hynxzzlhphnnhyqlhjfk.supabase.co/",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh5bnh6emxocGhubmh5cWxoamZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjY0NzEyMDUsImV4cCI6MjA0MjA0NzIwNX0.Fpmy61-5_E1w6NFraPcruUeKLixDLMWfx-ahx9Hi1AM"
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
+
 function OnBoard() {
   const [currentTab, setCurrentTab] = useState("candidate");
 

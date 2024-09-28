@@ -15,7 +15,6 @@ import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import {
   fetchJobApplicationForCandidate,
-  fetchJobApplicationForRecruiter,
   fetchJobForRecruiterAction,
 } from "@/actions";
 

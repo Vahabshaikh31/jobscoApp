@@ -12,9 +12,8 @@ const CommonForm = ({
   formControls,
   handleFileChange,
 }) => {
-  const { toast } = useToast(); // use toast from hook directly
+  const { toast } = useToast(); 
 
-  // Handle input changes and update formData
   function handleInputChange(e, name) {
     const value = e.target.value;
     setFormData((prev) => ({
@@ -23,7 +22,6 @@ const CommonForm = ({
     }));
   }
 
-  // Render inputs or file upload based on control type
   function renderInputByComponentType(getCurrentControl) {
     switch (getCurrentControl.componentType) {
       case "input":

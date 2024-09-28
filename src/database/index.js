@@ -1,14 +1,22 @@
-const { default: mongoose } = require("mongoose");
+import mongoose from "mongoose";
 
 const connectToDB = async () => {
-  const connectionUrl =
-    "mongodb+srv://vahabs:Svahab3101@cluster0.jb9arqn.mongodb.net/JOBPORTAL?retryWrites=true&w=majority&appName=Cluster0";
+  const connectionUrl = process.env.MONGODB;
+
+  if (!connectionUrl) {
+    throw new Error("MONGODB environment variable is not set");
+  }
 
   try {
-    await mongoose.connect(connectionUrl);
-    console.log("Connection Is Success");
+    await mongoose.connect(connectionUrl, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("Connection is successful");
   } catch (error) {
-    console.log(error);
+    console.error("Failed to connect to MongoDB", error);
+    throw new Error(error.message);
   }
 };
+
 export default connectToDB;

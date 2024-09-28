@@ -34,7 +34,6 @@ const CandidateJobCard = ({
     (application) => application.jobID === jobItem._id
   );
 
-  // Common toast handler for upgrade notifications
   const handleUpgradeToast = (planType) => {
     return toast({
       variant: "destructive",

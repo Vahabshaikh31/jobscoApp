@@ -18,7 +18,7 @@ const ActivityPage = ({ id }) => {
     } catch (err) {
       setError("Failed to fetch applications.");
     } finally {
-      setLoading(false); // Set loading to false after fetching data
+      setLoading(false);
     }
   };
 

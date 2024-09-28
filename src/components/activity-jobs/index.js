@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import {
   Card,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -31,7 +30,6 @@ const ActivityJobs = ({ JobId, status }) => {
             className="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200"
           >
             <CardHeader className="p-4">
-              {/* Directly render JobIcon without unnecessary condition */}
               <div className="mb-3">
                 <JobIcon />
               </div>
@@ -62,8 +60,6 @@ const ActivityJobs = ({ JobId, status }) => {
                   : "Pending"}
               </span>
             </CardHeader>
-
-          
           </Card>
         ))
       ) : (

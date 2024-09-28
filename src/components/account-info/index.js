@@ -3,8 +3,7 @@
 import {
   candidateOnboardFromControls,
   initialCandidateAccountForm,
-  initialCandidateFormData, // Typo fixed
-  initialRecruiterFormData, // Typo fixed
+  initialRecruiterFormData,
   recruiterOnboardFromControls,
 } from "@/utils";
 import { useEffect, useState } from "react";
@@ -79,15 +78,8 @@ const AccountInfo = ({ profileInfo }) => {
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-      {" "}
-      {/* Styled container */}
-      <h1 className="text-2xl font-bold text-gray-800 mb-6">
-        Account Details
-      </h1>{" "}
-      {/* Styled header */}
+      <h1 className="text-2xl font-bold text-gray-800 mb-6">Account Details</h1>{" "}
       <div className="space-y-6">
-        {" "}
-        {/* Added spacing between form sections */}
         <CommonForm
           action={handleUpdateAccount}
           formControls={

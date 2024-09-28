@@ -1,4 +1,3 @@
-import { Query } from "mongoose";
 import qs from "query-string";
 
 export const recruiterOnboardFromControls = [
