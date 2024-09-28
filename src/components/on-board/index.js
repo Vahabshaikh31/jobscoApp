@@ -134,8 +134,6 @@ function OnBoard() {
               memberShipStartDate: "",
               memberShipEndDate: "",
             };
-      console.log("All ADat  :", data);
-
       await createProfile(data, "/");
     } catch (error) {
       console.error("Failed to create profile", error.message);

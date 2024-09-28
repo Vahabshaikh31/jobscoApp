@@ -12,7 +12,7 @@ const CommonForm = ({
   formControls,
   handleFileChange,
 }) => {
-  const { toast } = useToast(); 
+  const { toast } = useToast();
 
   function handleInputChange(e, name) {
     const value = e.target.value;
@@ -26,7 +26,10 @@ const CommonForm = ({
     switch (getCurrentControl.componentType) {
       case "input":
         return (
-          <div className="relative flex items-center mt-8">
+          <div
+            className="relative flex items-center mt-8"
+            key={getCurrentControl.name}
+          >
             <Input
               type="text"
               disabled={getCurrentControl.disabled}
@@ -45,6 +48,7 @@ const CommonForm = ({
           <label
             htmlFor={getCurrentControl.name}
             className="flex bg-gray-100 items-center px-3 py-3 mx-auto mt-6 text-center border-2 border-dashed rounded-lg cursor-pointer"
+            key={getCurrentControl.name}
           >
             <h2>{getCurrentControl.label}</h2>
             <Input
@@ -57,7 +61,10 @@ const CommonForm = ({
 
       default:
         return (
-          <div className="relative flex items-center mt-8">
+          <div
+            className="relative flex items-center mt-8"
+            key={getCurrentControl.name}
+          >
             <Input
               type="text"
               disabled={getCurrentControl.disabled}
@@ -73,10 +80,12 @@ const CommonForm = ({
     }
   }
 
-  // Handle form submission and show toast
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    // Add additional logic for form submission if needed
+
+    if (action) {
+      action();
+    }
 
     if (buttonText === "Update Profile") {
       toast({
@@ -100,5 +109,4 @@ const CommonForm = ({
     </form>
   );
 };
-
 export default CommonForm;
