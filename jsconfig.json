@@ -1,7 +1,23 @@
 {
   "compilerOptions": {
+    "baseUrl": ".", // Ensures that aliases work from the root of your project
     "paths": {
-      "@/*": ["./src/*"]
-    }
-  }
+      "@/*": ["./src/*"], // General alias for the entire src folder
+      "@/utils/*": ["./src/utils/*"], // Specific alias for utils folder
+      "@/database/*": ["./src/database/*"], // Alias for the database folder
+      "@/models/*": ["./src/models/*"] // Alias for models folder
+    },
+    "target": "es6", // Ensure compatibility with modern JavaScript
+    "module": "esnext", // Enable ES module system
+    "moduleResolution": "node", // Use Node module resolution
+    "lib": ["dom", "esnext"], // Add support for DOM and ESNext features
+    "skipLibCheck": true, // Skip type checking for libraries for better performance
+    "strict": true, // Enable strict type checking options
+    "esModuleInterop": true, // Allows default imports from non-ES modules
+    "forceConsistentCasingInFileNames": true, // Ensure file imports are case-sensitive
+    "allowJs": true, // Allow JavaScript files to be compiled
+    "resolveJsonModule": true // Allow importing JSON modules
+  },
+  "include": ["src/**/*"], // Ensures it applies to all files inside src folder
+  "exclude": ["node_modules"] // Exclude node_modules for better performance
 }
