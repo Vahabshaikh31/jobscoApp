@@ -14,7 +14,7 @@ export default async function Home() {
 
   return (
     <Fragment>
-      <div className="min-h-screen bg-gradient-to-br from-purple-500 to-indigo-500 text-white flex items-center justify-center">
+      <div className="min-h-screen w-full bg-gradient-to-br from-purple-500 to-indigo-500 text-white flex items-center justify-center">
         <div className="container mx-auto px-4">
           <div className="flex flex-col lg:flex-row items-center justify-between">
             <div className="lg:w-1/2 text-center lg:text-left space-y-6">

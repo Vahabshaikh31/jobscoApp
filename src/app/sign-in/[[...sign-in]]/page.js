@@ -1,5 +1,5 @@
 import { SignIn } from "@clerk/nextjs";
 
 export default function signInPage() {
-  return <SignIn />;
+  return <SignIn className="bg bg-red-600" />;
 }

@@ -8,13 +8,13 @@ export async function CommonLayout({ children }) {
   const profileInfo = await fetchProfileAction(user?.id);
 
   return (
-    <div className=" mx-auto max-w-7xl p-6 lg:px-8">
+    <div className=" mx-auto max-w-9xl ">
       {/* Header Component */}
       <Header profileInfo={profileInfo} user={user} />
-      {/* Header Component */}
-      {/* Main Content */}
-      <main>{children}</main>
-      {/* Main Content */}
+
+      <main className="flex justify-center items-center max-w-full w-full">
+        {children}
+      </main>
     </div>
   );
 }

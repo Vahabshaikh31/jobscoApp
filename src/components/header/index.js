@@ -21,13 +21,13 @@ function Header({ user, profileInfo }) {
 
   return (
     <div>
-      <header className="flex h-16 w-full shrink-0 items-center">
+      <header className="flex h-16 max-w-9xl shrink-0 items-center px-5">
         {/* Mobile Menu */}
         <Sheet>
           <SheetTrigger asChild>
             <Button className="lg:hidden">
               <AlignJustify className="h-6 w-6" />
-              <span className="sr-only">Toggle Navigation Menu</span>
+              <span className="sr-only"> Toggle Navigation Menu </span>
             </Button>
           </SheetTrigger>
           <SheetContent side="left">
@@ -43,7 +43,6 @@ function Header({ user, profileInfo }) {
                     {item.label}
                   </Link>
                 ))}
-              {/* Add UserButton in the mobile menu */}
               {user && (
                 <div className="mt-4">
                   <UserButton afterSignOutUrl="/" />

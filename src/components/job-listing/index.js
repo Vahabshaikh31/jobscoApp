@@ -96,7 +96,7 @@ export function JobListing({
   }, [JobCount]);
 
   return (
-    <div className="mx-auto max-w-7xl p-4">
+    <div className="mx-auto max-w-8xl w-7xl p-4">
       {/* Header */}
       <div className="flex items-baseline justify-between border-b border-gray-200 py-6">
         <h1 className="text-4xl font-bold tracking-tight text-gray-900">

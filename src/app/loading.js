@@ -5,7 +5,7 @@ import { Fragment } from "react";
 const LoadingPage = () => {
   return (
     <Fragment>
-      <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="flex items-center justify-center min-h-screen bg-gray-100 w-full">
         <div className="text-center">
           <svg
             className="animate-spin h-10 w-10 text-blue-600 mx-auto"

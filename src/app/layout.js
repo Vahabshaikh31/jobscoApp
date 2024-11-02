@@ -31,12 +31,10 @@ export default function RootLayout({ children }) {
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white`}
         >
-          {/* Wrap the layout with Suspense for fallback loading */}
           <Suspense fallback={<Loading />}>
             <CommonLayout>{children}</CommonLayout>
           </Suspense>
 
-          {/* Toast notifications */}
           <Toaster />
         </body>
       </html>
